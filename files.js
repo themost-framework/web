@@ -15,6 +15,7 @@ var Base26Number = require('@themost/common/utils').Base26Number;
 var RandomUtils = require('@themost/common/utils').RandomUtils;
 var TraceUtils = require('@themost/common/utils').TraceUtils;
 var LangUtils = require('@themost/common/utils').LangUtils;
+var url = require('url');
 /**
  * @abstract
  * @classdesc An abstract class that describes a file storage.
@@ -191,7 +192,9 @@ AttachmentFileSystemStorage.prototype.save = function(context, item, callback) {
                 item.alternateName = RandomUtils.randomChars(12);
             }
             //set url
-            item.url = path.join(self.virtualPath, item.alternateName);
+            var virtualPath = self.virtualPath;
+            virtualPath += /\/$/.test(virtualPath) ? '' : '/';
+            item.url = url.resolve(virtualPath, item.alternateName);
             //save attachment
             attachments.save(item, function(err) {
                 callback(err);
@@ -262,8 +265,11 @@ AttachmentFileSystemStorage.prototype.resolvePhysicalPath = function(context, it
  */
 AttachmentFileSystemStorage.prototype.resolveUrl = function(context, item, callback) {
     var alternateName = item.alternateName, self = this;
+    // get virtual path
+    var virtualPath = self.virtualPath;
+    virtualPath += /\/$/.test(virtualPath) ? '' : '/';
     if (alternateName) {
-        callback(null, path.join(self.virtualPath, alternateName));
+        callback(null, url.resolve(virtualPath, alternateName));
     }
     else {
         self.findOne(context, item, function(err, result) {
@@ -275,7 +281,7 @@ AttachmentFileSystemStorage.prototype.resolveUrl = function(context, item, callb
                     callback(new Error('Item cannot be found'));
                 }
                 else {
-                    callback(null, path.join(self.virtualPath, item.alternateName));
+                    callback(null, url.resolve(virtualPath, result.alternateName));
                 }
             }
         });
