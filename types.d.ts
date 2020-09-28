@@ -1,5 +1,5 @@
-import {IApplication, IApplicationService} from "@themost/common";
-import {SequentialEventEmitter} from "../common";
+// MOST Web Framework 2.0 Codename Blueshift Copyright (c) 2017-2020, THEMOST LP All rights reserved
+import {IApplication, IApplicationService, SequentialEventEmitter} from "@themost/common";
 import {HttpContext} from "./context";
 
 export declare class HttpViewEngine extends SequentialEventEmitter {

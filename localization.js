@@ -7,8 +7,8 @@
  * found in the LICENSE file at https://themost.io/license
  */
 ///
-var AbstractMethodError = require("../common/errors").AbstractMethodError;
-var AbstractClassError = require("../common/errors").AbstractClassError;
+var AbstractMethodError = require("@themost/common").AbstractMethodError;
+var AbstractClassError = require("@themost/common").AbstractClassError;
 var LangUtils = require('@themost/common/utils').LangUtils;
 var Args = require('@themost/common/utils').Args;
 var TraceUtils = require('@themost/common/utils').TraceUtils;
