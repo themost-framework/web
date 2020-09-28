@@ -1,3 +1,4 @@
+// MOST Web Framework 2.0 Codename Blueshift Copyright (c) 2017-2020, THEMOST LP All rights reserved
 import {IncomingMessage, ServerResponse, RequestListener} from "http";
 import {HttpContext} from "./context";
 import {HttpConfiguration} from "./config";
@@ -14,6 +15,9 @@ declare interface ApplicationOptions {
 export declare interface HttpControllerConfiguration {
     configure(app:HttpApplication);
 }
+
+// tslint:disable-next-line:ban-types
+declare type ServiceConstructor<T> = Function & { prototype: T };
 
 export declare class HttpContextProvider {
     constructor (app:HttpApplication);
@@ -53,6 +57,6 @@ export declare class HttpApplication extends SequentialEventEmitter {
     useService(serviceCtor: Function);
     hasStrategy(serviceCtor: Function);
     hasService(serviceCtor: Function);
-    getStrategy<T>(serviceCtor: new() => T): T;
-    getService<T>(serviceCtor: new() => T): T;
+    getStrategy<T>(serviceCtor: ServiceConstructor<T>): T;
+    getService<T>(serviceCtor: ServiceConstructor<T>): T;
 }
