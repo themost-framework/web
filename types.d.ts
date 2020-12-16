@@ -62,9 +62,19 @@ export declare interface EndRequestHandler {
 }
 
 
-export declare interface HttpHandler extends BeginRequestHandler,
+export declare class HttpHandler implements BeginRequestHandler,
     ValidateRequestHandler, AuthenticateRequestHandler, AuthorizeRequestHandler,
     MapRequestHandler, PostMapRequestHandler, PreExecuteResultHandler, PostExecuteResultHandler,
     EndRequestHandler {
+    static readonly Events: string[];
+    beginRequest(context: HttpContext, callback: (err?: Error) => void);
+    authenticateRequest(context: HttpContext, callback: (err?: Error) => void);
+    authorizeRequest(context: HttpContext, callback: (err?: Error) => void);
+    endRequest(context: HttpContext, callback: (err?: Error) => void);
+    mapRequest(context: HttpContext, callback: (err?: Error) => void);
+    postExecuteResult(args: PreExecuteResultArgs, callback: (err?: Error) => void);
+    postMapRequest(context: HttpContext, callback: (err?: Error) => void);
+    preExecuteResult(args: PreExecuteResultArgs, callback: (err?: Error) => void);
+    validateRequest(context: HttpContext, callback: (err?: Error) => void);
 
 }

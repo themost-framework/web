@@ -152,7 +152,7 @@ DirectiveEngine.prototype.postExecuteResult = function(args, callback) {
 
         callback = callback || function() {};
         //get context and view
-        const context = args.context, view = args.target;
+        var context = args.context, view = args.target;
         //ensure context
         if (typeof context === 'undefined' || context === null) {
             return callback();
@@ -173,7 +173,7 @@ DirectiveEngine.prototype.postExecuteResult = function(args, callback) {
         /**
          * @type TemplateCacheStrategy
          */
-        let templateCache;
+        var templateCache;
         if (!context.getApplication().hasService(TemplateCacheStrategy)) {
             context.getApplication().useService(TemplateCacheStrategy);
         }
@@ -181,14 +181,14 @@ DirectiveEngine.prototype.postExecuteResult = function(args, callback) {
         /**
          * @type {AngularServerModule}
          */
-        const angularServer = context.getApplication().getService(AngularServerModule);
+        var angularServer = context.getApplication().getService(AngularServerModule);
 
         //process result
-        let document = angularServer.createDocument(view.body);
+        var document = angularServer.createDocument(view.body);
         //create server module
-        const angular = document.parentWindow.angular;
+        var angular = document.parentWindow.angular;
 
-        let app;
+        var app;
         if (this.hasOwnProperty('hasBootstrap') && typeof this.hasBootstrap === 'function') {
             app = this.hasBootstrap(angular);
         }
@@ -199,7 +199,7 @@ DirectiveEngine.prototype.postExecuteResult = function(args, callback) {
          * @type {Array}
          */
 
-        const promises = [];
+        var promises = [];
         app.config(function($sceDelegateProvider) {
             /**
              * @method resourceUrlWhitelist
