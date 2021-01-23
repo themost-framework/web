@@ -77,7 +77,7 @@ ServicesConfiguration.config = function(app) {
                 else {
                     ServiceCtor = app.getConfiguration().getStrategy(ModuleLoaderStrategy).require(x.serviceType);
                 }
-                app.useStrategy(StrategyCtor, ServiceCtor);
+                app.useStrategy(ServiceCtor, StrategyCtor);
         });
     }
 };
