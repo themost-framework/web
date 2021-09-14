@@ -76,13 +76,11 @@ XmlHandler.prototype.validateRequest = function(context, callback) {
                     locator:{
 
                     },
-                    errorHandler:{
-                        error:function(msg){
+                    errorHandler:function(msg){
                             errors.push(msg);
                         }
-                    }
                 });
-                doc = parser.parseFromString(request.body,'application/xml');
+                doc = parser.parseFromString(request.body, 'application/xml');
                 if (errors.length>0) {
                     return callback(new HttpBadRequestError(errors[0]));
                 }
