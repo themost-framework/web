@@ -8,7 +8,7 @@
  */
 var HttpBadRequestError = require("@themost/common/errors").HttpBadRequestError;
 var raw = require('raw-body');
-var DOMParser = require('xmldom').DOMParser;
+var DOMParser = require('@xmldom/xmldom').DOMParser;
 var contentTypeParser = require('content-type');
 var _  = require('lodash');
 
@@ -76,13 +76,11 @@ XmlHandler.prototype.validateRequest = function(context, callback) {
                     locator:{
 
                     },
-                    errorHandler:{
-                        error:function(msg){
+                    errorHandler:function(msg){
                             errors.push(msg);
                         }
-                    }
                 });
-                doc = parser.parseFromString(request.body,'application/xml');
+                doc = parser.parseFromString(request.body, 'application/xml');
                 if (errors.length>0) {
                     return callback(new HttpBadRequestError(errors[0]));
                 }
