@@ -80,12 +80,12 @@ HttpViewEngine.prototype.getContext = function() {
 /**
  * @abstract
  * @description Renders the specified view with the options provided
- * @param {string} file
- * @param {*} data
- * @param {Function} callback
+ * @param {string} _file
+ * @param {*} _data
+ * @param {Function} _callback
  */
 // eslint-disable-next-line no-unused-vars
-HttpViewEngine.prototype.render = function(file, data, callback) {
+HttpViewEngine.prototype.render = function(_file, _data, _callback) {
     throw new AbstractMethodError();
 };
 
@@ -253,7 +253,7 @@ PreExecuteResultHandler.prototype.preExecuteResult = function (context, callback
  */
 // eslint-disable-next-line no-unused-vars
 function PostExecuteResultHandler() {
-    if (this.constructor === PreExecuteResultHandler.prototype.constructor) {
+    if (this.constructor === PostExecuteResultHandler.prototype.constructor) {
         throw new AbstractClassError();
     }
 }
@@ -289,8 +289,7 @@ EndRequestHandler.prototype.beginRequest = function (context, callback) {
 };
 
 /**
- * @classdesc An abstract class that represents an HTTP Handler
- * @class
+ * @class An abstract class that represents an HTTP Handler
  * @abstract
  * @constructor
  */

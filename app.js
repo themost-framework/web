@@ -12,7 +12,6 @@ var HttpServerError = require('@themost/common/errors').HttpServerError;
 var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
 var Args = require('@themost/common/utils').Args;
 var TraceUtils = require('@themost/common/utils').TraceUtils;
-var sprintf = require('sprintf').sprintf;
 var _ = require('lodash');
 var mvc = require('./mvc');
 var LangUtils = require('@themost/common/utils').LangUtils;
@@ -34,7 +33,7 @@ var DefaultEncryptionStrategy = require('./handlers/auth').DefaultEncryptionStra
 var CacheStrategy = require('./cache').CacheStrategy;
 var DefaultCacheStrategy = require('./cache').DefaultCacheStrategy;
 var LocalizationStrategy = require('./localization').LocalizationStrategy;
-var DefaulLocalizationStrategy = require('./localization').DefaultLocalizationStrategy;
+var DefaultLocalizationStrategy = require('./localization').DefaultLocalizationStrategy;
 var HttpConfiguration = require('./config').HttpConfiguration;
 var HttpApplicationService = require('./types').HttpApplicationService;
 var HttpContext = require('./context').HttpContext;
@@ -82,7 +81,7 @@ function HttpDataContext() {
     //
 }
 /**
- * @returns {DataAdapter}
+ * @returns {*}
  */
 HttpDataContext.prototype.db = function () {
     return null;
@@ -129,7 +128,6 @@ HttpContextProvider.prototype.create = function(req,res) {
  * @constructor
  * @param {string=} executionPath
  * @augments SequentialEventEmitter
- * @augments IApplication
  */
 function HttpApplication(executionPath) {
 
@@ -187,7 +185,7 @@ function HttpApplication(executionPath) {
             }
         }
         catch (err) {
-            throw new Error(sprintf('The specified handler (%s) cannot be loaded. %s', handlerConfiguration.name, err.message));
+            throw new Error('The specified handler ' + handlerConfiguration.name + ' cannot be loaded.' + err.message);
         }
     });
     //set default context provider
@@ -199,12 +197,12 @@ function HttpApplication(executionPath) {
     //set encryption strategy
     self.useStrategy(EncryptionStrategy, DefaultEncryptionStrategy);
     //set localization strategy
-    self.useStrategy(LocalizationStrategy, DefaulLocalizationStrategy);
+    self.useStrategy(LocalizationStrategy, DefaultLocalizationStrategy);
     //set authentication strategy
     self.getConfiguration().useStrategy(DataConfigurationStrategy, DataConfigurationStrategy);
     /**
      * Gets or sets a boolean that indicates whether the application is in development mode
-     * @type {string}
+     * @type {boolean}
      */
     this.development = (process.env.NODE_ENV === 'development');
     /**
@@ -505,18 +503,19 @@ HttpApplication.prototype.processRequest = function (context, callback) {
 
 /**
  * Gets the default data context based on the current configuration
- * @returns {DataAdapter}
+ * @returns {*}
  */
 HttpApplication.prototype.db = function () {
-    if ((this.config.adapters === null) || (this.config.adapters.length === 0))
+    var config = this.getConfiguration();
+    if ((config.adapters === null) || (config.adapters.length === 0))
         throw new Error('Data adapters configuration settings are missing or cannot be accessed.');
     var adapter = null;
-    if (this.config.adapters.length === 1) {
+    if (config.adapters.length === 1) {
         //there is only one adapter so try to instantiate it
-        adapter = this.config.adapters[0];
+        adapter = config.adapters[0];
     }
     else {
-        adapter = _.find(this.config.adapters,function (x) {
+        adapter = _.find(config.adapters,function (x) {
             return x.default;
         });
     }
@@ -525,7 +524,7 @@ HttpApplication.prototype.db = function () {
     //try to instantiate adapter
     if (!adapter.invariantName)
         throw new Error('The default data adapter has no invariant name.');
-    var adapterType = this.config.adapterTypes[adapter.invariantName];
+    var adapterType = config.adapterTypes[adapter.invariantName];
     if (adapterType == null)
         throw new Error('The default data adapter type cannot be found.');
     if (typeof adapterType.createInstance === 'function') {
@@ -658,7 +657,7 @@ HttpApplication.prototype.extend = function (extension) {
     else {
         //register the specified extension
         if (typeof extension === 'string') {
-            var extensionPath = this.mapPath(sprintf('/extensions/%s.js', extension));
+            var extensionPath = this.mapPath('/extensions/' + extension + '.js');
             if (fs.existsSync(extensionPath)) {
                 //load extension
                 require(extensionPath);
@@ -932,7 +931,7 @@ function onError(context, err, callback) {
         // log request
         if (context.request) {
             TraceUtils.error(context.request.method + ' ' +
-                ((context.user && context.user.name) || 'unknwon') + ' ' +
+                ((context.user && context.user.name) || 'unknown') + ' ' +
                 context.request.url);
         }
         //log error
@@ -1261,7 +1260,7 @@ HttpApplication.prototype.useController = function(name, controllerCtor) {
 };
 
 /**
- * Registers an application strategy e.g. an singleton service which to be used in application contextr
+ * Registers an application strategy e.g. an singleton service which to be used in application context
  * @param {Function} serviceCtor
  * @param {Function} strategyCtor
  * @returns HttpApplication
