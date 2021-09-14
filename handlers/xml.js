@@ -8,7 +8,7 @@
  */
 var HttpBadRequestError = require("@themost/common/errors").HttpBadRequestError;
 var raw = require('raw-body');
-var DOMParser = require('xmldom').DOMParser;
+var DOMParser = require('@xmldom/xmldom').DOMParser;
 var contentTypeParser = require('content-type');
 var _  = require('lodash');
 
