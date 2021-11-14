@@ -32,7 +32,6 @@ var ODataModelBuilder = require('@themost/data/odata').ODataModelBuilder;
 var EdmMapping = require('@themost/data/odata').EdmMapping;
 var EdmType = require('@themost/data/odata').EdmType;
 var DefaultTopQueryOption = 50;
-var Args = require('@themost/common').Args;
 /**
  * @type {Array<HttpRouteConfiguration>}
  */

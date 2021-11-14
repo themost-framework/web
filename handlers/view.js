@@ -404,6 +404,32 @@ ViewHandler.prototype.preflightRequest = function (context, callback) {
  * @param {HttpContext} context
  * @param {Function} callback
  */
+ViewHandler.prototype.next = function(context, callback) {
+    const self = this;
+    // destroy handler if any
+    delete context.request.currentHandler;
+    // execute ViewHandler.mapRequest() again
+    return ViewHandler.prototype.mapRequest.bind(self)(context, function(err) {
+        if (err) {
+            return callback(err);
+        }
+        // if current handler is ViewHandler
+        if (context.request.currentHandler instanceof ViewHandler) {
+            // execute ViewHandler.processRequest()
+            return ViewHandler.prototype.processRequest.bind(self)(context, function(err) {
+                if (err) {
+                    return callback(err);
+                }
+                return callback();
+            });
+        }
+        return callback(new HttpNotFoundError());
+    });
+}
+/**
+ * @param {HttpContext} context
+ * @param {Function} callback
+ */
 ViewHandler.prototype.processRequest = function (context, callback) {
     var self = this;
     callback = callback || function () { };
@@ -423,10 +449,17 @@ ViewHandler.prototype.processRequest = function (context, callback) {
             if (action) {
                 //execute action
                 var fn, useHttpMethodNamingConvention = false;
-                if (controller.constructor['httpController']) {
+                // if controller is an httpController
+                // (contains @httpController decorator)
+                if (Object.prototype.hasOwnProperty.call(controller.constructor, 'httpController')) {
                     fn = queryControllerAction(controller, action);
                     if (typeof fn === 'function') {
                         useHttpMethodNamingConvention = true;
+                    } else {
+                        // go next
+                        return self.next(context, function(err) {
+                            return callback(err);
+                        });
                     }
                 }
                 else {
@@ -486,35 +519,25 @@ ViewHandler.prototype.processRequest = function (context, callback) {
                             var source = fn.apply(controller, params);
                             // continue processing
                             if (source instanceof HttpNextResult) {
-                                // destroy handler
-                                delete context.request.currentHandler;
-                                // execute ViewHandler.mapRequest() again
-                                return ViewHandler.prototype.mapRequest.bind(self)(context, function(err) {
-                                    if (err) {
-                                        return callback(err);
-                                    }
-                                    // if current handler is ViewHandler
-                                    if (context.request.currentHandler instanceof ViewHandler) {
-                                        // execute ViewHandler.processRequest()
-                                        return ViewHandler.prototype.processRequest.bind(self)(context, function(err) {
-                                            if (err) {
-                                                return callback(err);
-                                            }
-                                            return callback();
-                                        });
-                                    }
-                                    return callback(new HttpNotFoundError());
+                                // go next
+                                return self.next(context, function(err) {
+                                    return callback(err);
                                 });
                             }
-                            //if action result is an instance of HttpResult
+                            // if action result is an instance of HttpResult
                             else if (source instanceof HttpResult) {
-                                //execute http result
+                                // execute http result
                                 return source.execute(context, callback);
                             }
                             var finalSource = _.isPromise(source) ? source : Q.resolve(source);
-                            //if action result is a promise
+                            // if action result is a promise
                             return finalSource.then(function(result) {
-                                if (result instanceof HttpResult) {
+                                if (result instanceof HttpNextResult) {
+                                    // go next
+                                    return self.next(context, function(err) {
+                                        return callback(err);
+                                    });
+                                } else if (result instanceof HttpResult) {
                                     //execute http result
                                     return result.execute(context, callback);
                                 }
