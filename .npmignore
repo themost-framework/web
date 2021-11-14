@@ -1,3 +1,10 @@
 .github/
 node_modules
 spec
+
+# eslint
+.eslintrc
+.eslintignore
+
+# docs
+conf.json
