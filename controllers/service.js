@@ -559,7 +559,8 @@ HttpServiceController.prototype.getNavigationProperty = function(entitySet, navi
                         return Promise.resolve(memberFunc.apply(obj, funcParameters)).then(function(result) {
                             if (result instanceof DataQueryable) {
                                 if (returnModel == null) {
-                                    return Promise.reject(new HttpNotFoundError("Result Entity not found"));
+                                    returnModel = context.model(result.model.name);
+                                    returnEntityType = self.getBuilder().getEntity(result.model.name);
                                 }
                                 //if the return value is a single instance
                                 if (!returnsCollection) {
@@ -890,9 +891,9 @@ HttpServiceController.prototype.getEntitySetFunction = function(entitySet, entit
                 // get return type
                 var returnEntityType = self.getBuilder().getEntity(func.returnType || func.returnCollectionType);
                 if (result instanceof DataQueryable) {
-                    // if model is null throw error
                     if (returnModel == null) {
-                        return Promise.reject(new HttpNotFoundError('Result Entity not found'));
+                        returnModel = context.model(result.model.name);
+                        returnEntityType = self.getBuilder().getEntity(result.model.name);
                     }
                     if (!returnsCollection) {
                         //pass context parameters (if navigationProperty is empty)
