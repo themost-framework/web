@@ -119,7 +119,7 @@ HttpServiceController.prototype.getItems = function(entitySet) {
             return Promise.reject(new HttpNotFoundError("Entity not found"));
         }
         //set default $top property
-        if (!context.params.hasOwnProperty('$top')) {
+        if (!Object.prototype.hasOwnProperty.call(context.params, '$top')) {
             Object.assign(context.params, {
                 $top: DefaultTopQueryOption
             });
@@ -584,7 +584,9 @@ HttpServiceController.prototype.getNavigationProperty = function(entitySet, navi
                                 return returnModel.filter( Object.assign({
                                     "$top": DefaultTopQueryOption
                                 }, context.params)).then(function(q) {
-                                    var count = context.params.hasOwnProperty('$inlinecount') ? parseBoolean(context.params.$inlinecount) : (context.params.hasOwnProperty('$count') ? parseBoolean(context.params.$count) : false);
+                                    var count = Object.prototype.hasOwnProperty.call(context.params, '$inlinecount') ?
+                                        parseBoolean(context.params.$inlinecount) :
+                                        (Object.prototype.hasOwnProperty.call(context.params, '$count') ? parseBoolean(context.params.$count) : false);
                                     var q1 = extendQueryable(result, q);
                                     if (count) {
                                         return q1.getList().then(function(result) {
@@ -617,7 +619,9 @@ HttpServiceController.prototype.getNavigationProperty = function(entitySet, navi
                 //get mapping
                 var mapping = model.inferMapping(navigationProperty);
                 //get count parameter
-                var count = context.params.hasOwnProperty('$inlinecount') ? parseBoolean(context.params.$inlinecount) : (context.params.hasOwnProperty('$count') ? parseBoolean(context.params.$count) : false);
+                var count = Object.prototype.hasOwnProperty.call(context.params, '$inlinecount') ?
+                    parseBoolean(context.params.$inlinecount) : 
+                    (Object.prototype.hasOwnProperty.call(context.params, '$count') ? parseBoolean(context.params.$count) : false);
                 if (mapping == null) {
                     //try to find associated model
                     //get singular model name
@@ -924,7 +928,9 @@ HttpServiceController.prototype.getEntitySetFunction = function(entitySet, entit
                     return returnModel.filter(params)( Object.assign({
                         "$top":DefaultTopQueryOption
                     },context.params)).then(function(q) {
-                        var count = context.params.hasOwnProperty('$inlinecount') ? parseBoolean(context.params.$inlinecount) : (context.params.hasOwnProperty('$count') ? parseBoolean(context.params.$count) : false);
+                        var count = Object.prototype.hasOwnProperty.call(context.params, '$inlinecount') ? 
+                            parseBoolean(context.params.$inlinecount) : 
+                            (Object.prototype.hasOwnProperty.call(context.params, '$count') ? parseBoolean(context.params.$count) : false);
                         var q1 = extendQueryable(result, q);
                         if (count) {
                             return q1.getList().then(function(result) {
@@ -957,6 +963,13 @@ HttpServiceController.prototype.getEntitySetFunction = function(entitySet, entit
                 }
                 if (returnEntitySet == null) {
                     return Promise.reject(new HttpNotFoundError('Result EntitySet not found'));
+                }
+                const action = returnEntitySet.hasOwnAction(navigationProperty);
+                if (action != null) {
+                    Object.assign(context.params, {
+                        id: result[returnModel.primaryKey]
+                    });
+                    return self.next();
                 }
                 return self.getNavigationProperty(returnEntitySet.name,navigationProperty, result[returnModel.primaryKey])
             });
