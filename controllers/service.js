@@ -964,13 +964,6 @@ HttpServiceController.prototype.getEntitySetFunction = function(entitySet, entit
                 if (returnEntitySet == null) {
                     return Promise.reject(new HttpNotFoundError('Result EntitySet not found'));
                 }
-                const action = returnEntitySet.hasOwnAction(navigationProperty);
-                if (action != null) {
-                    Object.assign(context.params, {
-                        id: result[returnModel.primaryKey]
-                    });
-                    return self.next();
-                }
                 return self.getNavigationProperty(returnEntitySet.name,navigationProperty, result[returnModel.primaryKey])
             });
         }
