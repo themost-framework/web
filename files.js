@@ -16,6 +16,7 @@ var RandomUtils = require('@themost/common/utils').RandomUtils;
 var TraceUtils = require('@themost/common/utils').TraceUtils;
 var LangUtils = require('@themost/common/utils').LangUtils;
 var url = require('url');
+var DefaultAttachmentModel = 'Attachment';
 /**
  * @abstract
  * @classdesc An abstract class that describes a file storage.
@@ -180,7 +181,13 @@ AttachmentFileSystemStorage.prototype.save = function(context, item, callback) {
                 callback();
                 return;
             }
-            var attachments = context.model('Attachment');
+            var type = DefaultAttachmentModel; 
+            if (Object.prototype.hasOwnProperty.call(item, 'additionalType')) {
+                if (item.additionalType != null) {
+                    type = item.additionalType;
+                }
+            }
+            var attachments = context.model(type);
             if (_.isNil(attachments)) {
                 callback(new Error('Attachment model cannot be found.'));
             }
@@ -219,9 +226,15 @@ AttachmentFileSystemStorage.prototype.findOne = function(context, query, callbac
                 callback();
                 return;
             }
-            var attachments = context.model('Attachment');
+            var type = DefaultAttachmentModel; 
+            if (Object.prototype.hasOwnProperty.call(query, 'additionalType')) {
+                if (query.additionalType != null) {
+                    type = query.additionalType;
+                }
+            }
+            var attachments = context.model(type);
             if (_.isNil(attachments)) {
-                callback(new Error('Attachment model cannot be found.'));
+                callback(new Error('Target model cannot be found.'));
             }
             attachments.find(query).first(callback);
         }
@@ -356,9 +369,15 @@ AttachmentFileSystemStorage.prototype.find = function(context, query, callback) 
                 callback();
             }
             else {
-                var attachments = context.model('Attachment');
+                var type = DefaultAttachmentModel; 
+                if (Object.prototype.hasOwnProperty.call(query, 'additionalType')) {
+                    if (query.additionalType != null) {
+                        type = query.additionalType;
+                    }
+                }
+                var attachments = context.model(type);
                 if (_.isNil(attachments)) {
-                    callback(new Error('Attachment model cannot be found.'));
+                    callback(new Error('Target model cannot be found.'));
                 }
                 attachments.find(query).all(callback)
             }
