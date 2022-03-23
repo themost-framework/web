@@ -10,6 +10,7 @@ var formidable = require('formidable');
 var _ = require('lodash');
 var semver = require('semver');
 var LangUtils = require('@themost/common/utils').LangUtils;
+var os = require('os');
 // DEP0022: os.tmpDir()
 // The os.tmpDir() API was deprecated in Node.js 7.0.0 and has since been removed. Please use os.tmpdir() instead.
 // v14.0.0 end-of-life
