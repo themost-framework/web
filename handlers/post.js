@@ -9,7 +9,15 @@
 var formidable = require('formidable');
 var _ = require('lodash');
 var TraceUtils = require('@themost/common/utils').TraceUtils;
-
+var os = require('os');
+// DEP0022: os.tmpDir()
+// The os.tmpDir() API was deprecated in Node.js 7.0.0 and has since been removed. Please use os.tmpdir() instead.
+// v14.0.0 end-of-life
+// v7.0.0 deprecation
+// Solution: map os.tmpDir() used by formidable to os.tmpdir()
+if (typeof os.tmpDir === 'undefined' && typeof os.tmpdir === 'function') {
+    os.tmpDir = os.tmpdir;
+}
 /**
  * @class UnknownValue
  * @constructor
