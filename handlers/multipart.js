@@ -10,6 +10,14 @@ var formidable = require('formidable');
 var _ = require('lodash');
 var semver = require('semver');
 var LangUtils = require('@themost/common/utils').LangUtils;
+// DEP0022: os.tmpDir()
+// The os.tmpDir() API was deprecated in Node.js 7.0.0 and has since been removed. Please use os.tmpdir() instead.
+// v14.0.0 end-of-life
+// v7.0.0 deprecation
+// Solution: map os.tmpDir() used by formidable to os.tmpdir()
+if (typeof os.tmpDir === 'undefined' && typeof os.tmpdir === 'function') {
+    os.tmpDir = os.tmpdir;
+}
 
 if (semver.gte(process.versions.node, "6.0.0")) {
     var multipart_parser = require('formidable/lib/multipart_parser'),
