@@ -5,12 +5,12 @@
   "main": "index.js",
   "types": "index.d.ts",
   "peerDependencies": {
-    "@themost/common": "^2.5.6",
-    "@themost/query": "^2.5.8",
-    "@themost/xml": "^2.5.2",
-    "@themost/data": "^2.6.32",
     "@themost/client": "^2.5.6",
-    "@themost/node": "^2.5.0"
+    "@themost/common": "^2.5.6",
+    "@themost/data": "^2.6.32",
+    "@themost/node": "^2.5.0",
+    "@themost/query": "^2.5.8",
+    "@themost/xml": "^2.5.2"
   },
   "engines": {
     "node": ">=12.22.12"
@@ -32,7 +32,7 @@
     "@xmldom/xmldom": "^0.7.5",
     "accepts": "^1.3.3",
     "async": "^2.6.4",
-    "body-parser": "~1.19.0",
+    "body-parser": "^1.20.1",
     "content-type": "^1.0.4",
     "domino": "1.0.18",
     "ejs": "^3.1.7",
