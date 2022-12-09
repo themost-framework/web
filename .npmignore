@@ -1,4 +1,7 @@
+# github
 .github/
+
+# test
 node_modules
 spec
 
@@ -6,5 +9,14 @@ spec
 .eslintrc
 .eslintignore
 
+# gitpod
+.gitpod.yml
+
 # docs
 conf.json
+
+# ide
+.idea
+.vscode
+.theia
+.DS_Store
