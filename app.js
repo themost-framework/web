@@ -1011,6 +1011,7 @@ var HTTP_SERVER_DEFAULT_BIND = '127.0.0.1';
 var HTTP_SERVER_DEFAULT_PORT = 3000;
 
 /**
+ * @this HttpApplication
  * @private
  * @param {Function=} callback
  * @param {ApplicationOptions|*} options
@@ -1209,15 +1210,9 @@ HttpApplication.prototype.runtime = function() {
         var context = self.createContext(req,res);
         context.request.on('close', function() {
             //finalize data context
-            if (_.isObject(context)) {
+            if (context) {
                 context.finalize(function() {
-                    if (context.response) {
-                        //if response is alive
-                        if (context.response.finished === false) {
-                            //end response
-                            context.response.end();
-                        }
-                    }
+                    //
                 });
             }
         });
@@ -1232,7 +1227,9 @@ HttpApplication.prototype.runtime = function() {
                 return nextError(context, err);
             }
             return context.finalize(function() {
-                context.response.end();
+                if (context.response.writableEnded === false) {
+                    context.response.end();
+                }
             });
         });
     };

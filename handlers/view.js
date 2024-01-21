@@ -283,7 +283,7 @@ ViewHandler.prototype.mapRequest = function (context, callback) {
                 context.request.routeData = currentRoute.routeData;
                 //set route data as params
                 for(var prop in currentRoute.routeData) {
-                    if (currentRoute.routeData.hasOwnProperty(prop)) {
+                    if (Object.prototype.hasOwnProperty.call(currentRoute.routeData, prop)) {
                         context.params[prop] = currentRoute.routeData[prop];
                     }
                 }
@@ -308,30 +308,23 @@ ViewHandler.prototype.mapRequest = function (context, callback) {
  */
 ViewHandler.prototype.postMapRequest = function (context, callback) {
     try {
-        ViewHandler.prototype.preflightRequest.call(this, context, function(err) {
-            if (err) { return callback(err); }
-            var obj;
-            if (context.is('POST')) {
-                if (context.format==='json') {
-                    if (typeof context.request.body === 'string') {
-                        //parse json data
-                        try {
-                            obj = JSON.parse(context.request.body);
-                            //set context data
-                            context.params.data = obj;
-                        }
-                        catch(err) {
-                            TraceUtils.log(err);
-                            return callback(new Error('Invalid JSON data.'));
-                        }
-                    }
+        const shouldParseJson = (context.is('POST') || context.is('PUT') || context.is('PATCH')) && (context.format === 'json');
+        if (shouldParseJson) {
+            if (typeof context.request.body === 'string') {
+                //parse json data
+                try {
+                    context.params.data = JSON.parse(context.request.body);
+                }
+                catch(err) {
+                    TraceUtils.log(err);
+                    return callback(new Error('Invalid JSON data.'));
                 }
             }
-            return callback();
-        });
+        }
+        return callback();
     }
-    catch(e) {
-        callback(e);
+    catch(error) {
+        return callback(error);
     }
 };
 ViewHandler.prototype.preflightRequest = function (context, callback) {
@@ -553,20 +546,16 @@ ViewHandler.prototype.processRequest = function (context, callback) {
                                     }
                                 }
                             }).catch(function(err) {
-                                return callback.bind(context)(err);
+                                return callback(err);
                             });
 
                         }
                         else {
                             params.push(function (err, result) {
                                 if (err) {
-                                    //throw error
-                                    callback.call(context, err);
+                                    return callback(err);
                                 }
-                                else {
-                                    //execute http result
-                                    return result.execute(context, callback);
-                                }
+                                return result.execute(context, callback);
                             });
                             //invoke controller method
                             return fn.apply(controller, params);
@@ -702,23 +691,18 @@ function queryControllerAction(controller, action) {
  * @private
  * */
 function queryController(requestUri) {
-    try {
-        if (requestUri === undefined)
-            return null;
-        //split path
-        var segments = requestUri.pathname.split('/');
-        //put an exception for root controller
-        //maybe this is unnecessary exception but we need to search for root controller e.g. /index.html, /about.html
-        if (segments.length === 2)
-            return 'root';
-        else
-        //e.g /pages/about where segments are ['','pages','about']
-        //and the controller of course is always the second segment.
-            return segments[1];
-    }
-    catch (err) {
-        throw err;
-    }
+    if (requestUri == undefined)
+        return null;
+    //split path
+    var segments = requestUri.pathname.split('/');
+    //put an exception for root controller
+    //maybe this is unnecessary exception but we need to search for root controller e.g. /index.html, /about.html
+    if (segments.length === 2)
+        return 'root';
+    else
+    //e.g /pages/about where segments are ['','pages','about']
+    //and the controller of course is always the second segment.
+        return segments[1];
 }
 
 if (typeof exports !== 'undefined') {
