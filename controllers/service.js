@@ -886,7 +886,13 @@ HttpServiceController.prototype.getEntitySetFunction = function(entitySet, entit
         var DataObjectClass = model.getDataObjectType();
         var staticFunc = EdmMapping.hasOwnFunction(DataObjectClass,entitySetFunction);
         if (staticFunc) {
-            return Promise.resolve(staticFunc(context)).then(function(result) {
+            var functionParameters = func.parameters.filter(function (x) {
+                return x.name !== 'bindingParameter';
+            }).map(function (x) {
+                return context.getParam(x.name);
+            });
+            functionParameters.unshift(context);
+            return Promise.resolve(staticFunc.apply(null, functionParameters)).then(function(result) {
                 var returnsCollection = typeof func.returnCollectionType === 'string';
                 // get return entity set
                 var returnEntitySet = self.getBuilder().getEntityTypeEntitySet(func.returnType || func.returnCollectionType);
