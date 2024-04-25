@@ -20,3 +20,6 @@ conf.json
 .vscode
 .theia
 .DS_Store
+
+# babel
+babel.config.js
