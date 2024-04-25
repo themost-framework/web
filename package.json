@@ -36,7 +36,7 @@
     "content-type": "^1.0.4",
     "domino": "1.0.18",
     "ejs": "^3.1.7",
-    "formidable": "1.0.14",
+    "formidable": "^3.5.1",
     "hashmap": "^2.3.0",
     "i18n": "^0.14.2",
     "lodash": "^4.17.21",
@@ -65,6 +65,6 @@
     "@types/q": "^1.5.1",
     "jasmine": "^4.6.0",
     "jasmine-spec-reporter": "^7.0.0",
-    "supertest": "^6.3.3"
+    "supertest": "^7.0.0"
   }
 }
