@@ -75,6 +75,7 @@ export declare class HttpEmptyResult extends HttpResult {
 export declare class HttpController {
 
     context: HttpContext;
+    constructor(context: HttpContext);
     view(data?: any): HttpViewResult;
     html(data?: any): HttpViewResult;
     htm(data?: any): HttpViewResult;

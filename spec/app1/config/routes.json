@@ -1,0 +1,13 @@
+[
+  {
+    "url": "/?",
+    "controller": "index",
+    "action": "index",
+    "format": "json"
+  },
+  {
+    "url": "/:action/?",
+    "controller": "index",
+    "format": "json"
+  }
+]
