@@ -215,23 +215,49 @@ PostHandler.prototype.beginRequest = function(context, callback) {
             if (/^application\/x-www-form-urlencoded/i.test(request.headers['content-type'])) {
                 //use formidable to parse request data
                 var f = new formidable.IncomingForm();
-                f.parse(request, function (err, form, files) {
+                return f.parse(request, function (err, form, files) {
                     if (err) {
-                        callback(err);
-                        return;
+                        return callback(err);
                     }
                     try {
-                        //add form
-                        if (form) {
-                            _.assign(context.params, parseForm(form));
+                        // flatten form data
+                        var reqForm = Object.keys(form).filter(function (key) {
+                            // important: return only keys that are not already in context.params
+                            return Object.prototype.hasOwnProperty.call(context.params, key) === false;
+                        }).reduce(function (prev, key) {
+                            if (Object.prototype.hasOwnProperty.call(form, key)) {
+                                var value = form[key];
+                                if (Array.isArray(value) && value.length === 1) {
+                                    Object.assign(prev, { [key]: value[0] });
+                                } else {
+                                    Object.assign(prev, { [key]: value });
+                                }
+                            }
+                            return prev;
+                        }, {});
+                        if (reqForm) {
+                            Object.assign(context.params, parseForm(reqForm));
                         }
-                        //add files
-                        if (files)
-                            _.assign(context.params, files);
-                        callback();
+                        if (files) {
+                            const addParams = Object.keys(files).filter(function(key) {
+                                return Object.prototype.hasOwnProperty.call(context.params, key) === false;
+                            }).reduce(function (prev, key) {
+                                if (Object.prototype.hasOwnProperty.call(files, key)) {
+                                    if (Array.isArray(files[key]) && files[key].length === 1) {
+                                        Object.assign(prev, { [key]: files[key][0] });
+                                    } else {
+                                        Object.assign(prev, { [key]: files[key] });
+                                    }
+                                }
+                                return prev;
+                            }, {});
+                            // assign context params
+                            Object.assign(context.params, addParams);
+                        }
+                        return callback();
                     }
-                    catch (e) {
-                        callback(e);
+                    catch (error) {
+                        return callback(error);
                     }
                 });
             }
@@ -243,7 +269,7 @@ PostHandler.prototype.beginRequest = function(context, callback) {
     }
     catch  (err) {
         TraceUtils.log(err);
-        callback(new Error("An internal server error occured while parsing request data."));
+        callback(new Error("An internal server error occurred while parsing request data."));
     }
 
 };

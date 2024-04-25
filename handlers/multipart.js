@@ -8,7 +8,6 @@
  */
 var formidable = require('formidable');
 var _ = require('lodash');
-var semver = require('semver');
 var LangUtils = require('@themost/common/utils').LangUtils;
 var os = require('os');
 // DEP0022: os.tmpDir()
@@ -16,24 +15,14 @@ var os = require('os');
 // v14.0.0 end-of-life
 // v7.0.0 deprecation
 // Solution: map os.tmpDir() used by formidable to os.tmpdir()
-if (typeof os.tmpDir === 'undefined' && typeof os.tmpdir === 'function') {
-    os.tmpDir = os.tmpdir;
-}
-
-if (semver.gte(process.versions.node, "6.0.0")) {
-    var multipart_parser = require('formidable/lib/multipart_parser'),
-        MultipartParser = multipart_parser.MultipartParser;
-    MultipartParser.prototype.initWithBoundary = function(str) {
-        this.boundary = new Buffer(str.length+4);
-        this.boundary.write('\r\n--', 0, 4 , 'ascii');
-        this.boundary.write(str, 4, str.length, 'ascii');
-        this.lookbehind = new Buffer(this.boundary.length+8);
-        this.state = multipart_parser.START;
-        this.boundaryChars = {};
-        for (var i = 0; i < this.boundary.length; i++) {
-            this.boundaryChars[this.boundary[i]] = true;
-        }
-    };
+/**
+ * @type {{tmpDir(): string,tmpdir(): string}|*}
+ */
+var deprecatedOs = os;
+if (typeof deprecatedOs.tmpDir === 'undefined' && typeof deprecatedOs.tmpdir === 'function') {
+    Object.assign(os, {
+        tmpDir: os.tmpdir
+    });
 }
 
 /**
@@ -52,32 +41,53 @@ MultipartHandler.prototype.beginRequest = function(context, callback) {
     if (/^multipart\/form-data/i.test(contentType)) {
         //use formidable to parse request data
         var f = new formidable.IncomingForm();
-        f.parse(request, function (err, form, files) {
+        return f.parse(request, function (err, form, files) {
             if (err) {
                 callback(err);
                 return;
             }
             try {
-                //add form
-                if (form) {
-                    _.assign(context.params, LangUtils.parseForm(form));
+                // flatten form data
+                var reqForm = Object.keys(form).filter(function(key) {
+                    // return only keys that are not already in context.params
+                    return Object.prototype.hasOwnProperty.call(context.params, key) === false;
+                }).reduce(function (prev, key) {
+                    // get first form key if it is an array with one element
+                    if (Object.prototype.hasOwnProperty.call(form, key)) {
+                        if (Array.isArray(form[key]) && form[key].length === 1) {
+                            Object.assign(prev, { [key]: form[key][0] });
+                        } else {
+                            // otherwise assign the whole array
+                            Object.assign(prev, { [key]: form[key] });
+                        }
+                    }
+                    return prev;
+                }, {});
+                if (reqForm) {
+                    // parse form data and assign it to context
+                    Object.assign(context.params, LangUtils.parseForm(reqForm));
                 }
                 //add files
                 if (files) {
-                    _.forEach(_.keys(files),function(key) {
-                        if (context.params.hasOwnProperty(key)) {
-                            _.assign(context.params[key], files[key]);
+                    const addParams = Object.keys(files).filter(function(key) {
+                        return Object.prototype.hasOwnProperty.call(context.params, key) === false;
+                    }).reduce(function (prev, key) {
+                        if (Object.prototype.hasOwnProperty.call(files, key)) {
+                            if (Array.isArray(files[key]) && files[key].length === 1) {
+                                Object.assign(prev, { [key]: files[key][0] });
+                            } else {
+                                Object.assign(prev, { [key]: files[key] });
+                            }
                         }
-                        else {
-                            context.params[key] = files[key];
-                        }
-                    });
-
+                        return prev;
+                    }, {});
+                    // assign context params
+                    Object.assign(context.params, addParams);
                 }
-                callback();
+                return callback();
             }
-            catch (e) {
-                callback(e);
+            catch (error) {
+                return callback(error);
             }
         });
     }
