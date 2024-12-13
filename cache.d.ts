@@ -13,6 +13,10 @@ export declare abstract class CacheStrategy extends HttpApplicationService {
 
     abstract getOrDefault(key: string, fn: Promise<any>, absoluteExpiration?: number): Promise<any>;
 
+    abstract finalize(): Promise<void>;
+
+    abstract finalizeAsync(): Promise<void>;
+
 }
 
 export declare class DefaultCacheStrategy extends CacheStrategy {
@@ -28,5 +32,9 @@ export declare class DefaultCacheStrategy extends CacheStrategy {
     getOrDefault(key: string, fn: Promise<any>, absoluteExpiration?: number): Promise<any>;
 
     remove(key: string): Promise<any>;
+
+    finalize(): Promise<void>;
+
+    finalizeAsync(): Promise<void>;
 
 }

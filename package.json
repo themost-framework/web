@@ -41,7 +41,7 @@
     "i18n": "^0.14.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
-    "node-cache": "^1.1.0",
+    "node-cache": "^4.2.1",
     "numeral": "^2.0.6",
     "pagedown": "^1.1.0",
     "pluralize": "^7.0.0",

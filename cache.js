@@ -123,7 +123,7 @@ class DefaultCacheStrategy extends CacheStrategy {
     remove(key) {
         var self = this;
         return new Promise(function(resolve, reject) {
-            self.rawCache.set(key, function(err) {
+            self.rawCache.del(key, function(err) {
                 if (err) {
                     return reject(err);
                 }
@@ -154,7 +154,7 @@ class DefaultCacheStrategy extends CacheStrategy {
               if (err) {
                   return reject(err);
               }
-              return resolve(result ? result[key] : null);
+              return resolve(result);
            });
         });
     }
@@ -172,8 +172,8 @@ class DefaultCacheStrategy extends CacheStrategy {
         return self.get(key).then(function(res) {
             if (typeof res === 'undefined') {
                 return getValue().then(function (res) {
-                    if (res == null) {
-                        return Promise.resolve(null);
+                    if (typeof res === 'undefined') {
+                        return Promise.resolve(res);
                     }
                     return self.add(key, res, absoluteExpiration).then(function () {
                         return Promise.resolve(res);
@@ -183,6 +183,17 @@ class DefaultCacheStrategy extends CacheStrategy {
             return Promise.resolve(res);
         });
     }
+
+    finalize() {
+        this.rawCache.close();
+        return Promise.resolve();
+    }
+
+    finalizeAsync() {
+        this.rawCache.close()
+        return Promise.resolve();
+    }
+
 }
 
 module.exports = {
