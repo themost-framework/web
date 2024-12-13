@@ -1,21 +1,14 @@
-/**
- * @license
- * MOST Web Framework 2.0 Codename Blueshift
- * Copyright (c) 2017, THEMOST LP All rights reserved
- *
- * Use of this source code is governed by an BSD-3-Clause license that can be
- * found in the LICENSE file at https://themost.io/license
- */
+// @themost-framework 2.0 Codename Blueshift Copyright (c) 2017-2025, THEMOST LP All rights reserved
 
 var url = require('url');
 var sprintf = require('sprintf').sprintf;
 var async = require('async');
 var fs = require('fs');
 var route = require('../http-route');
-var LangUtils = require('@themost/common/utils').LangUtils;
-var TraceUtils = require('@themost/common/utils').TraceUtils;
-var HttpError = require('@themost/common/errors').HttpError;
-var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
+var LangUtils = require('@themost/common').LangUtils;
+var TraceUtils = require('@themost/common').TraceUtils;
+var HttpError = require('@themost/common').HttpError;
+var HttpNotFoundError = require('@themost/common').HttpNotFoundError;
 var path = require('path');
 var _ = require('lodash');
 var HttpConsumer = require('../consumers').HttpConsumer;

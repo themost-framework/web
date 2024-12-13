@@ -1,21 +1,11 @@
-// noinspection ES6ConvertVarToLetConst
-/**
- * @license
- * MOST Web Framework 2.0 Codename Blueshift
- * Copyright (c) 2017, THEMOST LP All rights reserved
- *
- * Use of this source code is governed by an BSD-3-Clause license that can be
- * found in the LICENSE file at https://themost.io/license
- */
-
-//
-var LangUtils = require('@themost/common/utils').LangUtils;
-var DataQueryable = require('@themost/data/data-queryable').DataQueryable;
-var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
-var HttpForbiddenError = require('@themost/common/errors').HttpForbiddenError;
-var HttpMethodNotAllowedError = require('@themost/common/errors').HttpMethodNotAllowedError;
-var HttpBadRequestError = require('@themost/common/errors').HttpBadRequestError;
-var parseBoolean = require('@themost/common/utils').LangUtils.parseBoolean;
+// @themost-framework 2.0 Codename Blueshift Copyright (c) 2017-2025, THEMOST LP All rights reserved
+var LangUtils = require('@themost/common').LangUtils;
+var DataQueryable = require('@themost/data').DataQueryable;
+var HttpNotFoundError = require('@themost/common').HttpNotFoundError;
+var HttpForbiddenError = require('@themost/common').HttpForbiddenError;
+var HttpMethodNotAllowedError = require('@themost/common').HttpMethodNotAllowedError;
+var HttpBadRequestError = require('@themost/common').HttpBadRequestError;
+var parseBoolean = require('@themost/common').LangUtils.parseBoolean;
 var pluralize = require('pluralize');
 var _ = require('lodash');
 var httpRoute = require('../decorators').httpRoute;
@@ -28,9 +18,9 @@ var httpAction = require('../decorators').httpAction;
 var httpController = require('../decorators').httpController;
 var defineDecorator = require('../decorators').defineDecorator;
 var HttpBaseController = require('./base');
-var ODataModelBuilder = require('@themost/data/odata').ODataModelBuilder;
-var EdmMapping = require('@themost/data/odata').EdmMapping;
-var EdmType = require('@themost/data/odata').EdmType;
+var ODataModelBuilder = require('@themost/data').ODataModelBuilder;
+var EdmMapping = require('@themost/data').EdmMapping;
+var EdmType = require('@themost/data').EdmType;
 var DefaultTopQueryOption = 50;
 /**
  * @type {Array<HttpRouteConfiguration>}

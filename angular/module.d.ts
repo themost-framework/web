@@ -1,4 +1,4 @@
-// MOST Web Framework 2.0 Codename Blueshift Copyright (c) 2017-2020, THEMOST LP All rights reserved
+// @themost-framework 2.0 Codename Blueshift Copyright (c) 2017-2025, THEMOST LP All rights reserved
 import {HttpApplicationService} from "../types";
 import * as angular from "angular";
 import IModule = angular.IModule;

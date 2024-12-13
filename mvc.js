@@ -1,19 +1,11 @@
-/**
- * @license
- * MOST Web Framework 2.0 Codename Blueshift
- * Copyright (c) 2017, THEMOST LP All rights reserved
- *
- * Use of this source code is governed by an BSD-3-Clause license that can be
- * found in the LICENSE file at https://themost.io/license
- */
-///
-var HttpError = require('@themost/common/errors').HttpError;
-var HttpMethodNotAllowedError = require('@themost/common/errors').HttpMethodNotAllowedError;
-var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
-var HttpForbiddenError = require('@themost/common/errors').HttpForbiddenError;
-var LangUtils = require('@themost/common/utils').LangUtils;
-var SequentialEventEmitter = require('@themost/common/emitter').SequentialEventEmitter;
-var HtmlWriter = require('@themost/common/html').HtmlWriter;
+// @themost-framework 2.0 Codename Blueshift Copyright (c) 2017-2025, THEMOST LP All rights reserved
+var HttpError = require('@themost/common').HttpError;
+var HttpMethodNotAllowedError = require('@themost/common').HttpMethodNotAllowedError;
+var HttpNotFoundError = require('@themost/common').HttpNotFoundError;
+var HttpForbiddenError = require('@themost/common').HttpForbiddenError;
+var LangUtils = require('@themost/common').LangUtils;
+var SequentialEventEmitter = require('@themost/common').SequentialEventEmitter;
+var HtmlWriter = require('@themost/common').HtmlWriter;
 var sprintf = require('sprintf').sprintf;
 var _ = require('lodash');
 var xml = require('@themost/xml');
@@ -23,7 +15,7 @@ var crypto = require('crypto');
 var Q = require('q');
 var async = require('async');
 var PassThrough = require('stream').PassThrough;
-var ModuleLoaderStrategy = require('@themost/common/config').ModuleLoaderStrategy;
+var ModuleLoaderStrategy = require('@themost/common').ModuleLoaderStrategy;
 var Symbol = require('symbol');
 var dataProperty = Symbol('data');
 

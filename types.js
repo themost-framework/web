@@ -7,14 +7,14 @@
  * found in the LICENSE file at https://themost.io/license
  */
 ///
-var Args = require('@themost/common/utils').Args;
-var LangUtils = require('@themost/common/utils').LangUtils;
-var SequentialEventEmitter = require('@themost/common/emitter').SequentialEventEmitter;
-var AbstractMethodError = require('@themost/common/errors').AbstractMethodError;
-var AbstractClassError = require('@themost/common/errors').AbstractClassError;
+var Args = require('@themost/common').Args;
+var LangUtils = require('@themost/common').LangUtils;
+var SequentialEventEmitter = require('@themost/common').SequentialEventEmitter;
+var AbstractMethodError = require('@themost/common').AbstractMethodError;
+var AbstractClassError = require('@themost/common').AbstractClassError;
 var Symbol = require('symbol');
 var applicationProperty = Symbol('application');
-var IApplicationService = require('@themost/common/app').IApplicationService;
+var IApplicationService = require('@themost/common').IApplicationService;
 
 /**
  * @abstract

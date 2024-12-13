@@ -1,22 +1,15 @@
-/**
- * @license
- * MOST Web Framework 2.0 Codename Blueshift
- * Copyright (c) 2017, THEMOST LP All rights reserved
- *
- * Use of this source code is governed by an BSD-3-Clause license that can be
- * found in the LICENSE file at https://themost.io/license
- */
+// @themost-framework 2.0 Codename Blueshift Copyright (c) 2017-2025, THEMOST LP All rights reserved
 var sprintf = require('sprintf').sprintf;
 var HttpController = require('../mvc').HttpController;
 var _ = require('lodash');
 var pluralize = require('pluralize');
-var TraceUtils = require('@themost/common/utils').TraceUtils;
-var LangUtils = require('@themost/common/utils').LangUtils;
-var HttpError = require('@themost/common/errors').HttpError;
-var HttpServerError = require('@themost/common/errors').HttpServerError;
-var HttpMethodNotAllowedError = require('@themost/common/errors').HttpMethodNotAllowedError;
-var HttpBadRequestError = require('@themost/common/errors').HttpBadRequestError;
-var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
+var TraceUtils = require('@themost/common').TraceUtils;
+var LangUtils = require('@themost/common').LangUtils;
+var HttpError = require('@themost/common').HttpError;
+var HttpServerError = require('@themost/common').HttpServerError;
+var HttpMethodNotAllowedError = require('@themost/common').HttpMethodNotAllowedError;
+var HttpBadRequestError = require('@themost/common').HttpBadRequestError;
+var HttpNotFoundError = require('@themost/common').HttpNotFoundError;
 
 /**
  * @classdesc HttpDataController class describes a common MOST Web Framework data controller.
