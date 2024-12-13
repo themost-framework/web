@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://themost.io/license
  */
 var StaticHandler = require("./static").StaticHandler;
-var LangUtils = require('@themost/common/utils').LangUtils;
+var LangUtils = require('@themost/common').LangUtils;
 var fs = require("fs");
 var url = require("url");
 var path = require("path");

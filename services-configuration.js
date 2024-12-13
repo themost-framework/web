@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://themost.io/license
  */
 ///
-var ModuleLoaderStrategy = require('@themost/common/config').ModuleLoaderStrategy;
+var ModuleLoaderStrategy = require('@themost/common').ModuleLoaderStrategy;
 var _ = require('lodash');
 
 /**

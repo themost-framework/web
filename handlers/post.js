@@ -8,7 +8,7 @@
  */
 var formidable = require('formidable');
 var _ = require('lodash');
-var TraceUtils = require('@themost/common/utils').TraceUtils;
+var TraceUtils = require('@themost/common').TraceUtils;
 var os = require('os');
 // DEP0022: os.tmpDir()
 // The os.tmpDir() API was deprecated in Node.js 7.0.0 and has since been removed. Please use os.tmpdir() instead.

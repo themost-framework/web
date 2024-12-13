@@ -8,8 +8,8 @@
  */
 var fs = require('fs');
 var pug = require('pug');
-var LangUtils = require('@themost/common/utils').LangUtils;
-var ArgumentError = require('@themost/common/utils').ArgumentError;
+var LangUtils = require('@themost/common').LangUtils;
+var ArgumentError = require('@themost/common').ArgumentError;
 var HttpViewEngine = require('../types').HttpViewEngine;
 var _ = require('lodash');
 var PostExecuteResultArgs = require('./../handlers/directive').PostExecuteResultArgs;

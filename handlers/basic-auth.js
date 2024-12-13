@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://themost.io/license
  */
 ///
-var TraceUtils = require('@themost/common/utils').TraceUtils;
+var TraceUtils = require('@themost/common').TraceUtils;
 var _ = require('lodash');
 /**
  * @class

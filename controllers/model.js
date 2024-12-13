@@ -7,7 +7,7 @@
  * found in the LICENSE file at https://themost.io/license
  */
 var HttpDataController = require('./data');
-var LangUtils = require('@themost/common/utils').LangUtils;
+var LangUtils = require('@themost/common').LangUtils;
 var httpGet = require('../decorators').httpGet;
 var httpPost = require('../decorators').httpPost;
 var httpPut = require('../decorators').httpPut;

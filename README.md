@@ -501,7 +501,7 @@ A @themost web application may serve static files. HttpApplication#useStaticCont
     //# server/server.js
     import {HttpApplication} from '@themost/web/app';
     import path from 'path';
-    import {TraceUtils} from '@themost/common/utils';
+    import {TraceUtils} from '@themost/common';
     import {AngularServerModule} from "@themost/web/angular/module";
     import {LocalizationStrategy, I18nLocalizationStrategy} from "@themost/web/localization";
     //initialize app

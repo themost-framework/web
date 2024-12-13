@@ -9,9 +9,9 @@
 ///
 var AbstractMethodError = require("@themost/common").AbstractMethodError;
 var AbstractClassError = require("@themost/common").AbstractClassError;
-var LangUtils = require('@themost/common/utils').LangUtils;
-var Args = require('@themost/common/utils').Args;
-var TraceUtils = require('@themost/common/utils').TraceUtils;
+var LangUtils = require('@themost/common').LangUtils;
+var Args = require('@themost/common').Args;
+var TraceUtils = require('@themost/common').TraceUtils;
 var path = require('path');
 var HttpApplicationService = require('./types').HttpApplicationService;
 var _ = require('lodash');

@@ -7,8 +7,8 @@
  * found in the LICENSE file at https://themost.io/license
  */
 var domino = require("domino");
-var LangUtils = require('@themost/common/utils').LangUtils;
-var Args = require('@themost/common/utils').Args;
+var LangUtils = require('@themost/common').LangUtils;
+var Args = require('@themost/common').Args;
 var HttpApplicationService = require('../types').HttpApplicationService;
 var applyDirectives = require('./directives').apply;
 var Symbom = require('symbol');

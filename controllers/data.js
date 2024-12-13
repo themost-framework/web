@@ -10,13 +10,13 @@ var sprintf = require('sprintf').sprintf;
 var HttpController = require('../mvc').HttpController;
 var _ = require('lodash');
 var pluralize = require('pluralize');
-var TraceUtils = require('@themost/common/utils').TraceUtils;
-var LangUtils = require('@themost/common/utils').LangUtils;
-var HttpError = require('@themost/common/errors').HttpError;
-var HttpServerError = require('@themost/common/errors').HttpServerError;
-var HttpMethodNotAllowedError = require('@themost/common/errors').HttpMethodNotAllowedError;
-var HttpBadRequestError = require('@themost/common/errors').HttpBadRequestError;
-var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
+var TraceUtils = require('@themost/common').TraceUtils;
+var LangUtils = require('@themost/common').LangUtils;
+var HttpError = require('@themost/common').HttpError;
+var HttpServerError = require('@themost/common').HttpServerError;
+var HttpMethodNotAllowedError = require('@themost/common').HttpMethodNotAllowedError;
+var HttpBadRequestError = require('@themost/common').HttpBadRequestError;
+var HttpNotFoundError = require('@themost/common').HttpNotFoundError;
 
 /**
  * @classdesc HttpDataController class describes a common MOST Web Framework data controller.

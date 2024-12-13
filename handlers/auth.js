@@ -6,14 +6,14 @@
  * Use of this source code is governed by an BSD-3-Clause license that can be
  * found in the LICENSE file at https://themost.io/license
  */
-var TraceUtils = require('@themost/common/utils').TraceUtils;
-var RandomUtils = require('@themost/common/utils').RandomUtils;
-var AbstractClassError = require('@themost/common/errors').AbstractClassError;
-var AbstractMethodError = require('@themost/common/errors').AbstractMethodError;
-var HttpUnauthorizedError = require('@themost/common/errors').HttpUnauthorizedError;
-var HttpForbiddenError = require('@themost/common/errors').HttpForbiddenError;
-var LangUtils = require('@themost/common/utils').LangUtils;
-var Args = require('@themost/common/utils').Args;
+var TraceUtils = require('@themost/common').TraceUtils;
+var RandomUtils = require('@themost/common').RandomUtils;
+var AbstractClassError = require('@themost/common').AbstractClassError;
+var AbstractMethodError = require('@themost/common').AbstractMethodError;
+var HttpUnauthorizedError = require('@themost/common').HttpUnauthorizedError;
+var HttpForbiddenError = require('@themost/common').HttpForbiddenError;
+var LangUtils = require('@themost/common').LangUtils;
+var Args = require('@themost/common').Args;
 var HttpApplicationService = require('./../types').HttpApplicationService;
 var Symbol = require('symbol');
 var _ = require('lodash');

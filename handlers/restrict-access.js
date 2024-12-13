@@ -7,9 +7,9 @@
  * found in the LICENSE file at https://themost.io/license
  */
 var _ = require('lodash');
-var TraceUtils = require('@themost/common/utils').TraceUtils;
-var HttpUnauthorizedError = require('@themost/common/errors').HttpUnauthorizedError;
-var HttpBadRequestError = require('@themost/common/errors').HttpBadRequestError;
+var TraceUtils = require('@themost/common').TraceUtils;
+var HttpUnauthorizedError = require('@themost/common').HttpUnauthorizedError;
+var HttpBadRequestError = require('@themost/common').HttpBadRequestError;
 var url = require('url');
 /**
  * @class

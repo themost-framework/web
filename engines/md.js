@@ -9,8 +9,8 @@
 var fs = require('fs');
 var pagedown = require('pagedown');
 var Extra = require('./pagedown/pagedown-extra').Extra;
-var LangUtils = require('@themost/common/utils').LangUtils;
-var ArgumentError = require('@themost/common/utils').ArgumentError;
+var LangUtils = require('@themost/common').LangUtils;
+var ArgumentError = require('@themost/common').ArgumentError;
 var HttpViewEngine = require('../types').HttpViewEngine;
 /**
  * @class

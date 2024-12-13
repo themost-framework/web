@@ -11,13 +11,13 @@
  *
  */
 ///
-var LangUtils = require('@themost/common/utils').LangUtils;
+var LangUtils = require('@themost/common').LangUtils;
 var Q = require('q');
 var _ = require('lodash');
 var HttpResult = require('./mvc').HttpResult;
-var ODataModelConventionBuilder = require('@themost/data/odata').ODataConventionModelBuilder;
-var ODataModelBuilder = require('@themost/data/odata').ODataModelBuilder;
-var DataConfiguration = require('@themost/data/data-configuration').DataConfiguration;
+var ODataModelConventionBuilder = require('@themost/data').ODataConventionModelBuilder;
+var ODataModelBuilder = require('@themost/data').ODataModelBuilder;
+var DataConfiguration = require('@themost/data').DataConfiguration;
 
 /**
  * @class

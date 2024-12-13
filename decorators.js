@@ -7,18 +7,18 @@
  * found in the LICENSE file at https://themost.io/license
  */
 ///
-var TraceUtils = require('@themost/common/utils').TraceUtils;
-var LangUtils = require('@themost/common/utils').LangUtils;
-var HttpBadRequestError = require('@themost/common/errors').HttpBadRequestError;
-var HttpUnauthorizedError = require('@themost/common/errors').HttpUnauthorizedError;
+var TraceUtils = require('@themost/common').TraceUtils;
+var LangUtils = require('@themost/common').LangUtils;
+var HttpBadRequestError = require('@themost/common').HttpBadRequestError;
+var HttpUnauthorizedError = require('@themost/common').HttpUnauthorizedError;
 var HttpConsumer = require('./consumers').HttpConsumer;
-var DataTypeValidator = require('@themost/data/data-validator').DataTypeValidator;
-var MinLengthValidator = require('@themost/data/data-validator').MinLengthValidator;
-var MaxLengthValidator = require('@themost/data/data-validator').MaxLengthValidator;
-var MinValueValidator = require('@themost/data/data-validator').MinValueValidator;
-var MaxValueValidator = require('@themost/data/data-validator').MaxValueValidator;
-var RequiredValidator = require('@themost/data/data-validator').RequiredValidator;
-var PatternValidator = require('@themost/data/data-validator').PatternValidator;
+var DataTypeValidator = require('@themost/data').DataTypeValidator;
+var MinLengthValidator = require('@themost/data').MinLengthValidator;
+var MaxLengthValidator = require('@themost/data').MaxLengthValidator;
+var MinValueValidator = require('@themost/data').MinValueValidator;
+var MaxValueValidator = require('@themost/data').MaxValueValidator;
+var RequiredValidator = require('@themost/data').RequiredValidator;
+var PatternValidator = require('@themost/data').PatternValidator;
 
 /**
  * @class

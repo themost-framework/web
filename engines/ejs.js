@@ -8,7 +8,7 @@
  */
 var _ = require('lodash');
 var HttpViewHelper = require('../helpers').HtmlViewHelper;
-var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
+var HttpNotFoundError = require('@themost/common').HttpNotFoundError;
 var ejs = require('ejs');
 var path = require('path');
 var fs = require('fs');

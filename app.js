@@ -7,21 +7,21 @@
  * found in the LICENSE file at https://themost.io/license
  */
 ///
-var HttpError = require('@themost/common/errors').HttpError;
-var HttpServerError = require('@themost/common/errors').HttpServerError;
-var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
-var Args = require('@themost/common/utils').Args;
-var TraceUtils = require('@themost/common/utils').TraceUtils;
+var HttpError = require('@themost/common').HttpError;
+var HttpServerError = require('@themost/common').HttpServerError;
+var HttpNotFoundError = require('@themost/common').HttpNotFoundError;
+var Args = require('@themost/common').Args;
+var TraceUtils = require('@themost/common').TraceUtils;
 var _ = require('lodash');
 var mvc = require('./mvc');
-var LangUtils = require('@themost/common/utils').LangUtils;
+var LangUtils = require('@themost/common').LangUtils;
 var path = require("path");
 var fs = require("fs");
 var ejs = require('ejs');
 var url = require('url');
 var http = require('http');
-var SequentialEventEmitter = require('@themost/common/emitter').SequentialEventEmitter;
-var DataConfigurationStrategy = require('@themost/data/data-configuration').DataConfigurationStrategy;
+var SequentialEventEmitter = require('@themost/common').SequentialEventEmitter;
+var DataConfigurationStrategy = require('@themost/data').DataConfigurationStrategy;
 var querystring = require('querystring');
 var crypto = require('crypto');
 var Symbol = require('symbol');

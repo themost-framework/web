@@ -7,10 +7,10 @@
  * found in the LICENSE file at https://themost.io/license
  */
 
-var HttpNotFoundError = require('@themost/common/errors').HttpNotFoundError;
-var HttpServerError = require('@themost/common/errors').HttpServerError;
-var HttpForbiddenError = require('@themost/common/errors').HttpForbiddenError;
-var TraceUtils = require('@themost/common/utils').TraceUtils;
+var HttpNotFoundError = require('@themost/common').HttpNotFoundError;
+var HttpServerError = require('@themost/common').HttpServerError;
+var HttpForbiddenError = require('@themost/common').HttpForbiddenError;
+var TraceUtils = require('@themost/common').TraceUtils;
 var fs = require('fs');
 var url = require('url');
 var path = require("path");

@@ -7,10 +7,10 @@
  * found in the LICENSE file at https://themost.io/license
  */
 ///
-var HttpError = require('@themost/common/errors').HttpError;
+var HttpError = require('@themost/common').HttpError;
 var AngularServerModule = require('./../angular/module').AngularServerModule;
 var _ = require('lodash');
-var LangUtils = require('@themost/common/utils').LangUtils;
+var LangUtils = require('@themost/common').LangUtils;
 var HttpApplicationService = require('../types').HttpApplicationService;
 
 var HashMap = require('hashmap');
