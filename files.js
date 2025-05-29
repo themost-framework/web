@@ -512,6 +512,9 @@ function copyFile(src, dest, callback) {
     source.on('error', function(err) {
         callback(err);
     });
+    finalDest.on('error', function(err) {
+        callback(err);
+    });
 }
 
 if (typeof exports !== 'undefined') {
