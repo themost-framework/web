@@ -156,33 +156,6 @@ function HttpContext(httpRequest, httpResponse) {
         }, configurable: false, enumerable: false
     });
 
-    var jq = null, ng = null, doc;
-    /**
-     * @property {jQuery|HTMLElement|*} $ - Gets server jQuery module
-     */
-    Object.defineProperty(this, '$', {
-        get: function () {
-            if (jq)
-                return jq;
-            if (typeof doc === 'undefined')
-                doc = self.application.document();
-            jq =  doc.parentWindow.jQuery;
-            return jq;
-        }, configurable: false, enumerable: false
-    });
-    /**
-     * @property {angular} angular - Gets server angular module
-     */
-    Object.defineProperty(this, 'angular', {
-        get: function () {
-            if (ng)
-                return ng;
-            if (typeof doc === 'undefined')
-                doc = self.application.document();
-            ng =  doc.parentWindow.angular;
-            return ng;
-        }, configurable: false, enumerable: false
-    });
     /**
      * Gets or sets the current user identity
      * @type {*}
@@ -745,17 +718,11 @@ HttpContext.prototype.resolveUrl = function(appRelativeUrl) {
     return this.getApplication().resolveUrl(appRelativeUrl);
 };
 
+function createInstance(request, response) {
+    return new HttpContext(request, response);
+}
 
-if (typeof exports !== 'undefined') {
-    module.exports.HttpContext = HttpContext;
-    /**
-     * Creates an instance of HttpContext class.
-     * @param {ClientRequest} request
-     * @param {ServerResponse} response
-     * @returns {HttpContext}
-     */
-    module.exports.createInstance = function (request, response) {
-
-        return new HttpContext(request, response);
-    }
+module.exports = {
+    HttpContext,
+    createInstance
 }

@@ -76,7 +76,7 @@ ODataModelBuilderConfiguration.configSync = function(app) {
     return builder;
 };
 
-if (typeof module !== 'undefined') {
-    module.exports.ODataModelBuilderConfiguration = ODataModelBuilderConfiguration;
-    module.exports.ODataJsonResult = ODataJsonResult;
+module.exports = {
+    ODataModelBuilderConfiguration,
+    ODataJsonResult
 }

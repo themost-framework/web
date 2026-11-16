@@ -1139,21 +1139,19 @@ function HttpNextResult()
 }
 LangUtils.inherits(HttpNextResult, HttpResult);
 
-if (typeof exports !== 'undefined')
-{
-    module.exports.HttpResult  = HttpResult;
-    module.exports.HttpContentResult  = HttpContentResult;
-    module.exports.HttpJsonResult =HttpJsonResult;
-    module.exports.HttpJavascriptResult =HttpJavascriptResult;
-    module.exports.HttpEmptyResult =HttpEmptyResult;
-    module.exports.HttpXmlResult =HttpXmlResult;
-    module.exports.HttpRedirectResult =HttpRedirectResult;
-    module.exports.HttpFileResult =HttpFileResult;
-    module.exports.HttpViewResult =HttpViewResult;
-    module.exports.HttpViewContext =HttpViewContext;
-    module.exports.HttpController =HttpController;
-    module.exports.HttpNextResult  = HttpNextResult;
+module.exports = {
+    HttpResult,
+    HttpContentResult,
+    HttpJsonResult,
+    HttpJavascriptResult,
+    HttpEmptyResult,
+    HttpXmlResult,
+    HttpRedirectResult,
+    HttpFileResult,
+    HttpViewResult,
+    HttpViewContext,
+    HttpController,
+    HttpNextResult
 }
-
 
 

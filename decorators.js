@@ -450,20 +450,22 @@ if (typeof Object.defineDecorator === 'undefined') {
     Object.defineDecorator = defineDecorator;
 }
 
-module.exports.DecoratorError = DecoratorError;
-module.exports.httpGet = httpGet;
-module.exports.httpAny = httpAny;
-module.exports.httpPost = httpPost;
-module.exports.httpPut = httpPut;
-module.exports.httpPatch = httpPatch;
-module.exports.httpDelete = httpDelete;
-module.exports.httpOptions = httpOptions;
-module.exports.httpHead = httpHead;
-module.exports.httpAction = httpAction;
-module.exports.httpRoute = httpRoute;
-module.exports.httpController = httpController;
-module.exports.httpParamAlias = httpParamAlias;
-module.exports.httpParam = httpParam;
-module.exports.httpAuthorize = httpAuthorize;
-module.exports.defineDecorator = defineDecorator;
-module.exports.httpActionConsumer = httpActionConsumer;
+module.exports = {
+    DecoratorError,
+    httpGet,
+    httpAny,
+    httpPost,
+    httpPut,
+    httpPatch,
+    httpDelete,
+    httpOptions,
+    httpHead,
+    httpAction,
+    httpRoute,
+    httpController,
+    httpParamAlias,
+    httpParam,
+    httpAuthorize,
+    defineDecorator,
+    httpActionConsumer
+}

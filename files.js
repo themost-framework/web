@@ -517,7 +517,7 @@ function copyFile(src, dest, callback) {
     });
 }
 
-if (typeof exports !== 'undefined') {
-    module.exports.FileStorage = FileStorage;
-    module.exports.AttachmentFileSystemStorage = AttachmentFileSystemStorage;
+module.exports = {
+    FileStorage,
+    AttachmentFileSystemStorage
 }

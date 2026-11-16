@@ -39,4 +39,6 @@ HttpConsumer.prototype.run = function(context, args) {
     return this.callable.apply(context, Array.prototype.slice.call(arguments));
 };
 
-module.exports.HttpConsumer = HttpConsumer;
+module.exports = {
+    HttpConsumer
+}

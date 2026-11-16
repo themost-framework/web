@@ -1,18 +1,18 @@
 // @themost-framework 2.0 Codename Blueshift Copyright (c) 2017-2025, THEMOST LP All rights reserved
 import {ConfigurationBase} from "@themost/common";
 
-export declare class MimeTypeConfiguration {
+export declare interface MimeTypeConfiguration {
     extension: string;
     type: string;
 }
 
-export declare class HttpViewEngineConfiguration {
+export declare interface HttpViewEngineConfiguration {
     name: string;
     type: string;
     extension: string;
 }
 
-export declare class HttpRouteConfiguration {
+export declare interface HttpRouteConfiguration {
     url: string;
     action?: string;
     controller?: string;
@@ -23,7 +23,7 @@ export declare class HttpRouteConfiguration {
     name?: string;
 }
 
-export declare class HttpHandlerConfiguration {
+export declare interface HttpHandlerConfiguration {
     name: string;
     type: string;
 }

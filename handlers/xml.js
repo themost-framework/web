@@ -69,9 +69,9 @@ XmlHandler.prototype.validateRequest = function(context, callback) {
                     locator:{
 
                     },
-                    errorHandler:function(msg){
-                            errors.push(msg);
-                        }
+                    onError:function(level, msg){
+                        errors.push(msg);
+                    }
                 });
                 doc = parser.parseFromString(request.body, 'application/xml');
                 if (errors.length>0) {

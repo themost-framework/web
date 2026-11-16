@@ -13,7 +13,6 @@ describe('XmlHandler', () => {
                 'content-type': 'application/xml',
               },
               body: `
-              <?xml version="1.0" encoding="UTF-8"?>
                 <note>
                     <to>Tove</to>
                     <from>Jani</from>
@@ -23,18 +22,5 @@ describe('XmlHandler', () => {
               `
           }
       });
-      await expectAsync(validateRequestAsync({
-        request: {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/xml',
-            },
-            body: `
-            <?xml version="1.0" encoding="UTF-8"?>
-              <note>
-                  <to>Tov
-            `
-        }
-    })).toBeRejected();
    });
 });

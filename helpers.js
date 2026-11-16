@@ -105,7 +105,6 @@ HtmlViewHelper.prototype.resolveUrl = function(appRelativeUrl) {
     return this.context.getApplication().resolveUrl(appRelativeUrl);
 };
 
-if (typeof exports !== 'undefined')
-{
-    module.exports.HtmlViewHelper = HtmlViewHelper;
+module.exports = {
+    HtmlViewHelper
 }

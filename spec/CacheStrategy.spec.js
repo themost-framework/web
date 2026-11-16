@@ -1,5 +1,6 @@
 const {resolve} = require('path');
 const { CacheStrategy, HttpApplication } = require('../index');
+const {finalizeAppAsync} = require('./TestUtils');
 
 describe('CacheStrategy', () => {
     /**
@@ -10,7 +11,7 @@ describe('CacheStrategy', () => {
         app = new HttpApplication(resolve(__dirname, 'app1'));
     });
     afterAll(async () => {
-        await app.getStrategy(CacheStrategy).finalizeAsync();
+        await finalizeAppAsync(app);
     });
 
     afterEach(async () => {

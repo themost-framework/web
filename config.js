@@ -2,242 +2,106 @@
 var ConfigurationBase = require('@themost/common').ConfigurationBase;
 var TraceUtils = require('@themost/common').TraceUtils;
 var PathUtils = require('@themost/common').PathUtils;
-var LangUtils = require('@themost/common').LangUtils;
 var Symbol = require('symbol');
 var _ = require('lodash');
 
 var routesProperty = Symbol('routes');
 
-/**
- * Defines an HTTP view engine in application configuration
- * @class
- * @constructor
- */
-function HttpViewEngineConfiguration()
-{
-
+class HttpConfiguration extends ConfigurationBase {
     /**
-     * @property
-     * @type {string}
-     * @name HttpViewEngineConfiguration#type
-     * @description Gets or sets the class associated with an HTTP view engine
-     *
+     * @class
+     * @constructor
+     * @param {string} configPath
+     * @augments ConfigurationBase
      */
+    constructor(configPath) {
+        super(configPath);
+        if (!this.hasSourceAt('mimes')) { this.setSourceAt('mimes',[]); }
+        if (!this.hasSourceAt('engines')) { this.setSourceAt('engines',[]); }
+        if (!this.hasSourceAt('controllers')) { this.setSourceAt('controllers',[]); }
+        if (!this.hasSourceAt('handlers')) { this.setSourceAt('handlers',[]); }
+        try {
+            this[routesProperty] = require(PathUtils.join(this.getConfigurationPath(),'routes.json'))
+        }
+        catch(err) {
+            if (err.code === 'MODULE_NOT_FOUND') {
+                this[routesProperty] = require('./resources/routes.json');
+            }
+            else {
+                TraceUtils.error('An error occurred while loading routes collection');
+                TraceUtils.error(err);
+            }
+        }
+        /**
+         * @name HttpConfiguration#engines
+         * @type {Array.<HttpViewEngineConfiguration>}
+         */
 
-    /**
-     * @property
-     * @type {string}
-     * @name HttpViewEngineConfiguration#name
-     * @description Gets or sets a string which represents the name of an HTTP view engine
-     */
+        Object.defineProperty(this, 'engines', {
+            get:function() {
+                return this.getSourceAt('engines');
+            }
+        });
 
-    /** @property
-     * @type {string}
-     * @name HttpViewEngineConfiguration#extension
-     * @description Gets or sets or sets a string which represents the extension associated with an HTTP view engine e.g. ejs, md etc
-     */
-}
 
-/**
- * @class
- * @constructor
- */
-function MimeTypeConfiguration() {
-    /**
-     * @property
-     * @name MimeTypeConfiguration#extension
-     * @type {string}
-     * @description Gets or sets a string which represents an extension associated with this mime type e.g. .css, .html, .json etc
-     */
+        /**
+         * @name HttpConfiguration#mimes
+         * @type {Array.<MimeTypeConfiguration>}
+         */
 
-    /**
-     * @property
-     * @name MimeTypeConfiguration#type
-     * @type {string}
-     * @description Gets or sets a string which represents a media type e.g. application/json, text/html etc.
-     */
-}
+        Object.defineProperty(this, 'mimes', {
+            get:function() {
+                return this.getSourceAt('mimes');
+            }
+        });
 
-/**
- * @class
- * @constructor
- */
-function HttpHandlerConfiguration() {
-    /**
-     * @property
-     * @name HttpHandlerConfiguration#name
-     * @type {string}
-     * @description Gets or sets a string which represents a name for this HTTP handler e.g. auth, basic-auth, post, restrict-access etc
-     */
+        /**
+         * @name HttpConfiguration#routes
+         * @type {Array.<HttpRouteConfiguration>}
+         */
 
-    /**
-     * @property
-     * @name HttpHandlerConfiguration#type
-     * @type {string}
-     * @description Gets or sets a string which represents the module path of this HTTP handler.
-     */
-}
+        Object.defineProperty(this, 'routes', {
+            get:function() {
+                return this[routesProperty];
+            }
+        });
 
-/**
- * @class
- * @constructor
- */
-function HttpRouteConfiguration() {
-    /**
-     * @property
-     * @name HttpRouteConfiguration#url
-     * @type {string}
-     * @description Gets or sets a string which the url pattern of an HTTP route e.g. /:controller/:action, /:controller/:id/:action etc
-     */
+        /**
+         * @name HttpConfiguration#controllers
+         * @type {Array}
+         */
 
-    /**
-     * @property
-     * @name HttpRouteConfiguration#controller
-     * @type {string}
-     * @description Gets or sets a string which defines the controller associated with an HTTP route
-     */
+        Object.defineProperty(this, 'controllers', {
+            get:function() {
+                return this.getSourceAt('controllers');
+            }
+        });
 
-    /**
-     * @property
-     * @name HttpRouteConfiguration#action
-     * @type {string}
-     * @description Gets or sets a string which defines the action of an HTTP route
-     */
+        /**
+         * @name HttpConfiguration#handlers
+         * @type {Array.<HttpHandlerConfiguration>}
+         */
 
-    /**
-     * @property
-     * @name HttpRouteConfiguration#format
-     * @type {string}
-     * @description Gets or sets a string which represents a media type etc. json, html etc
-     */
+        Object.defineProperty(this, 'handlers', {
+            get:function() {
+                return this.getSourceAt('handlers');
+            }
+        });
 
-    /**
-     * @property
-     * @name HttpRouteConfiguration#mime
-     * @type {string}
-     * @description Gets or sets a string which represents mime type etc. application/json, text/html etc
-     */
-
-    /**
-     * @property
-     * @name HttpRouteConfiguration#path
-     * @type {string}
-     * @description Gets or sets a string which represents the root path of view templates which are going to be used for this route
-     */
-
-    /**
-     * @property
-     * @name HttpRouteConfiguration#params
-     * @type {*}
-     * @description Gets or sets a set of parameters associated with an HTTP route e.g. static query parameters
-     */
-
-    /**
-     * @property
-     * @name HttpRouteConfiguration#name
-     * @type {string}
-     * @description Gets or sets a string which represents the name of this route.
-     */
-}
-
-/**
- * @class
- * @constructor
- * @param {string} configPath
- * @augments ConfigurationBase
- */
-function HttpConfiguration(configPath) {
-    HttpConfiguration.super_.bind(this)(configPath);
-    if (!this.hasSourceAt('mimes')) { this.setSourceAt('mimes',[]); }
-    if (!this.hasSourceAt('engines')) { this.setSourceAt('engines',[]); }
-    if (!this.hasSourceAt('controllers')) { this.setSourceAt('controllers',[]); }
-    if (!this.hasSourceAt('handlers')) { this.setSourceAt('handlers',[]); }
-    try {
-        this[routesProperty] = require(PathUtils.join(this.getConfigurationPath(),'routes.json'))
     }
-    catch(err) {
-        if (err.code === 'MODULE_NOT_FOUND') {
-            this[routesProperty] = require('./resources/routes.json');
-        }
-        else {
-            TraceUtils.error('An error occurred while loading routes collection');
-            TraceUtils.error(err);
-        }
+
+    /**
+     * Gets a mime type based on the given extension
+     * @param {string} extension
+     * @returns {*}
+     */
+    getMimeType(extension) {
+        return _.find(this.mimes,function(x) {
+            return (x.extension===extension) || (x.extension==='.'+extension);
+        });
     }
-    /**
-     * @name HttpConfiguration#engines
-     * @type {Array.<HttpViewEngineConfiguration>}
-     */
-
-    Object.defineProperty(this, 'engines', {
-        get:function() {
-            return this.getSourceAt('engines');
-        }
-    });
-
-
-    /**
-     * @name HttpConfiguration#mimes
-     * @type {Array.<MimeTypeConfiguration>}
-     */
-
-    Object.defineProperty(this, 'mimes', {
-        get:function() {
-            return this.getSourceAt('mimes');
-        }
-    });
-
-    /**
-     * @name HttpConfiguration#routes
-     * @type {Array.<HttpRouteConfiguration>}
-     */
-
-    Object.defineProperty(this, 'routes', {
-        get:function() {
-            return this[routesProperty];
-        }
-    });
-
-    /**
-     * @name HttpConfiguration#controllers
-     * @type {Array}
-     */
-
-    Object.defineProperty(this, 'controllers', {
-        get:function() {
-            return this.getSourceAt('controllers');
-        }
-    });
-
-    /**
-     * @name HttpConfiguration#handlers
-     * @type {Array.<HttpHandlerConfiguration>}
-     */
-
-    Object.defineProperty(this, 'handlers', {
-        get:function() {
-            return this.getSourceAt('handlers');
-        }
-    });
-
 }
-LangUtils.inherits(HttpConfiguration, ConfigurationBase);
 
-/**
- * Gets a mime type based on the given extension
- * @param {string} extension
- * @returns {*}
- */
-HttpConfiguration.prototype.getMimeType = function(extension) {
-    return _.find(this.mimes,function(x) {
-        return (x.extension===extension) || (x.extension==='.'+extension);
-    });
-};
-
-if (typeof exports !== 'undefined') {
-    module.exports.HttpConfiguration = HttpConfiguration;
-    module.exports.HttpViewEngineConfiguration = HttpViewEngineConfiguration;
-    module.exports.MimeTypeConfiguration = MimeTypeConfiguration;
-    module.exports.HttpRouteConfiguration = HttpRouteConfiguration;
-    module.exports.HttpHandlerConfiguration = HttpHandlerConfiguration;
+module.exports = {
+    HttpConfiguration
 }

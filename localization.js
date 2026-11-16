@@ -308,9 +308,8 @@ I18nLocalizationStrategy.prototype.setLocaleString = function(locale, data, shou
     }
 };
 
-if (typeof exports !== 'undefined')
-{
-    module.exports.LocalizationStrategy = LocalizationStrategy;
-    module.exports.DefaultLocalizationStrategy = DefaultLocalizationStrategy;
-    module.exports.I18nLocalizationStrategy = I18nLocalizationStrategy;
+module.exports = {
+    LocalizationStrategy,
+    DefaultLocalizationStrategy,
+    I18nLocalizationStrategy
 }

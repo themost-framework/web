@@ -156,17 +156,11 @@ HttpRoute.prototype.isMatch = function (urlToMatch) {
     return true;
 };
 
+function createInstance(route) {
+    return new HttpRoute(route);
+}
 
-if (typeof exports !== 'undefined') {
-    module.exports = {
-        HttpRoute:HttpRoute,
-        /**
-         * Creates a new instance of HttpRoute class
-         * @param {string|*=} route
-         * @returns {HttpRoute}
-         */
-        createInstance: function (route) {
-            return new HttpRoute(route);
-        }
-    };
+module.exports = {
+    HttpRoute,
+    createInstance
 }

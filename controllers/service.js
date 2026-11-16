@@ -51,14 +51,16 @@ function mapPrimitiveInstance(context, value, type) {
 
 /**
  * @classdesc HttpBaseController class describes a base controller.
- * @class
- * @param {HttpContext} context
- * @constructor
+ * @augments HttpBaseController
  */
-function HttpServiceController(context) {
-    HttpServiceController.super_.bind(this)(context);
+class HttpServiceController extends HttpBaseController {
+    /**
+     * @param {HttpContext} context
+     */
+    constructor(context) {
+        super(context);
+    }
 }
-LangUtils.inherits(HttpServiceController, HttpBaseController);
 defineDecorator(HttpServiceController, 'constructor', httpController('api'));
 
 HttpServiceController.prototype.getMetadata = function() {
