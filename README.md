@@ -1,12 +1,8 @@
 [![npm](https://img.shields.io/npm/v/@themost%2Fweb.svg)](https://www.npmjs.com/package/@themost%2Fweb)
-![](https://img.shields.io/david/themost-framework/themost-web) ![](https://img.shields.io/david/peer/themost-framework/themost-web)
-![](https://img.shields.io/david/dev/themost-framework/themost-web)
-![GitHub top language](https://img.shields.io/github/languages/top/themost-framework/themost-web)
 [![License](https://img.shields.io/npm/l/@themost/query)](https://github.com/themost-framework/themost-web/blob/master/LICENSE)
 ![GitHub last commit](https://img.shields.io/github/last-commit/themost-framework/themost-web)
 ![GitHub Release Date](https://img.shields.io/github/release-date/themost-framework/themost-web)
 [![npm](https://img.shields.io/npm/dw/@themost/data)](https://www.npmjs.com/package/@themost%2Fweb)
-![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/@themost/web)
 
 # @themost/web
 MOST Web Framework 2.0 **Codename Blueshift** Web Module
@@ -20,25 +16,11 @@ Install @themost/web
 
     npm i @themost/web
 
-## Development
-
-This repo is a submodule of [MOST Web Framework](http://github.com/themost-framework/themost)
-
-    git clone http://github.com/themost-framework/themost.git
-
 ## Generate a new application
 
-Install [MOST Web Framework CLI](http://github.com/kbarbounakis/most-web-cli) globally:
+Generate a new project by executing:
 
-    npm install @themost/cli -g
-    
-and generate a new project by executing:
-
-    themost generate new project <project name>
-    
-where [project name] is the name of the project which is going to be generated e.g.
-    
-    themost generate new project test-app
+    npx @themost/cli generate new project <project name>
 
 MOST Web Framework approaches a web application structure with a wind set of naming conventions. 
 So, a classic application structure seems like:
@@ -239,101 +221,9 @@ based on [Embedded JavaScript templates](https://github.com/mde/ejs)
         </div>
     </div>
 
-**Vash View Engine** 
-
-based on [Vash, Razor syntax, for JavaScript templates](https://github.com/kirbysayshi/vash)
-
-    <html lang="en">
-        <head><title>MOST Web Framework</title></head>
-        <body>
-            <h2>@model.message</h2>
-        </body>
-    </html>
-
-**Jade View Engine** 
-
-based on [Pug – robust, elegant, feature rich template engine for Node.js](https://github.com/pugjs/pug)
-
-    doctype html
-    html(lang="en")
-        head
-            title MOST Web Framework
-        body
-            h2= model.message
-
-**AngularJS for Server**
-
-@themost presents an new template engine based on the popular [AngularJS 1.x framework](https://github.com/angular/angular.js)
-This template is running in paraller with other templates engines and allows the use of AngularJS in server-side rendering.
-
-The following example contains an AngularJS server module and a simple directive which includes a hello message in an element:
-
-    //# server/modules/server-app.js
-    /**
-     * Initializes angular server application
-     * @param angular
-     */
-    export function bootstrap(angular) {
-        let serverExtensions = angular.module('server-extensions',[]);
-        serverExtensions
-            .directive('serverHello', function() {
-                return {
-                    restrict: 'A',
-                    scope: {
-                        serverHello: '='
-                    },
-                    link: function (scope, element) {
-                        element.html(scope.serverHello);
-                    }
-                };
-            });
-        return angular.module('server',['server-extensions']);
-    }
-
-
-Include the following html markup:
-
-    <p server-hello="'This is a hello message from server application'"></p>
-    
-e.g.
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="mt-5"><%=model.message%></h2>
-                <p server-hello="'This is a hello message from server application'"></p>
-            </div>
-        </div>
-    </div>
-
-and start using AngularJS directives in any server-side view.
-
-The result of an HTTP action may be also a Promise of any object (including an instance of HttpResult class).
-
-    @httpGet()
-    @httpAction('hello')
-    hello() {
-        return Promise.resolve({
-            "message": "Hello World!"
-        });
-    }
-    
-or
-
-    @httpGet()
-    @httpAction('hello')
-    hello() {
-        return new Promise((resolve, reject) => {
-            //...
-            return resolve({
-               "message": "Hello World!"
-           });
-        });
-    }
-
 ## Use routing
 
-MOST Web Framework holds application routings in server/config/routes.json file. 
+MOST Web Framework holds application routing in server/config/routes.json file. 
 
     [
         {
