@@ -2,6 +2,7 @@ const {HttpApplication} = require('../index');
 const path = require('path');
 const express = require('express');
 const request = require('supertest');
+const {finalizeAppAsync} = require('./TestUtils');
 
 class TestApplication extends HttpApplication {
     constructor() {
@@ -18,7 +19,12 @@ describe('PostHandler', () => {
         // runs before all tests in this block
         app = express();
         const service = new TestApplication();
+        app.set(HttpApplication.name, service);
         app.use(service.runtime());
+    });
+    afterAll(async () => {
+        const service = app.get(HttpApplication.name)
+        await finalizeAppAsync(service);
     });
     it('should handle json', async () => {
         const response = await request(app).post('/').set(

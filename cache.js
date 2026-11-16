@@ -185,13 +185,20 @@ class DefaultCacheStrategy extends CacheStrategy {
     }
 
     finalize() {
+        // noinspection JSUnresolvedReference
+        /**
+         * @type {Timeout}
+         */
+        const checkTimeout = this.rawCache.checkTimeout;
+        if (checkTimeout) {
+            clearTimeout(checkTimeout);
+        }
         this.rawCache.close();
         return Promise.resolve();
     }
 
     finalizeAsync() {
-        this.rawCache.close()
-        return Promise.resolve();
+        return this.finalize();
     }
 
 }
