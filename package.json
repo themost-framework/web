@@ -1,6 +1,6 @@
 {
   "name": "@themost/web",
-  "version": "2.8.2",
+  "version": "2.18.0",
   "description": "@themost/web is a Node.js framework for building web applications and RESTful APIs.",
   "main": "index.js",
   "types": "index.d.ts",
